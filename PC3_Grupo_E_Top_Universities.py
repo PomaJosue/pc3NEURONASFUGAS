@@ -187,3 +187,83 @@ print("Datos con tres atributos y uso de expresión regular:")
 
 for dato in datos:
     print(dato)
+
+
+    # ============================================================
+# PARTE II Y PARTE III LIZ
+# Extracción de atributos, uso de regex y creación de DataFrame
+# ============================================================
+
+import re
+import pandas as pd
+
+datos = []
+
+for i, registro in enumerate(registros_15, start=1):
+
+    numero_registro = i
+    texto_registro = registro
+    cantidad_caracteres = len(registro)
+
+    # Regex para extraer números dentro del texto
+    numeros_extraidos = re.findall(r"\d+", registro)
+
+    datos.append({
+        "Numero": numero_registro,
+        "Registro": texto_registro,
+        "Cantidad_caracteres": cantidad_caracteres,
+        "Numeros_extraidos_regex": numeros_extraidos
+    })
+
+# Crear DataFrame con pandas
+df = pd.DataFrame(datos)
+
+print("DataFrame creado con pandas:")
+print(df)
+
+# ============================================================
+# PARTE III. PROCESAMIENTO Y ANÁLISIS LIZ 1
+# Limpieza o transformación de datos
+# ============================================================
+
+# Limpiamos espacios al inicio y final del texto
+df["Registro_limpio"] = df["Registro"].str.strip()
+
+# Convertimos el texto a formato uniforme
+df["Registro_limpio"] = df["Registro_limpio"].str.replace("\n", " ", regex=False)
+
+# Creamos una nueva columna con la cantidad de números encontrados por regex
+df["Cantidad_numeros_regex"] = df["Numeros_extraidos_regex"].apply(len)
+
+# Creamos una columna para identificar si el registro contiene números
+df["Tiene_numeros"] = df["Cantidad_numeros_regex"] > 0
+
+# Eliminamos posibles registros duplicados
+df = df.drop_duplicates(subset=["Registro_limpio"])
+
+print("DataFrame limpio y transformado:")
+print(df)
+
+
+# ============================================================
+# Estadísticas descriptivas relevantes LIZ 2
+# ============================================================
+
+# 1. Cantidad total de registros analizados
+total_registros = len(df)
+
+# 2. Promedio de caracteres por registro
+promedio_caracteres = df["Cantidad_caracteres"].mean()
+
+# 3. Registro con mayor cantidad de caracteres
+max_caracteres = df["Cantidad_caracteres"].max()
+
+# Estadística adicional: cantidad de registros que contienen números
+registros_con_numeros = df["Tiene_numeros"].sum()
+
+print("Estadísticas descriptivas:")
+print("1. Total de registros analizados:", total_registros)
+print("2. Promedio de caracteres por registro:", round(promedio_caracteres, 2))
+print("3. Mayor cantidad de caracteres en un registro:", max_caracteres)
+print("4. Registros que contienen números:", registros_con_numeros)
+

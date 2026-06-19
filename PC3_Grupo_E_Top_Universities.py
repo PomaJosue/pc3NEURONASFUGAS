@@ -267,3 +267,30 @@ print("2. Promedio de caracteres por registro:", round(promedio_caracteres, 2))
 print("3. Mayor cantidad de caracteres en un registro:", max_caracteres)
 print("4. Registros que contienen números:", registros_con_numeros)
 
+# ============================================================
+# PARTE IV. VISUALIZACIÓN
+# Generar un gráfico adecuado e interpretar el resultado
+# ============================================================
+
+import matplotlib.pyplot as plt
+
+# Gráfico de barras:
+# Muestra la cantidad de caracteres que tiene cada registro recuperado
+
+plt.figure(figsize=(10, 5))
+
+plt.bar(df["Numero"], df["Cantidad_caracteres"])
+
+plt.title("Cantidad de caracteres por registro obtenido")
+plt.xlabel("Número de registro")
+plt.ylabel("Cantidad de caracteres")
+
+plt.xticks(df["Numero"])
+plt.tight_layout()
+
+plt.show()
+
+# Interpretación breve del gráfico
+print("Interpretación:")
+print("El gráfico de barras permite comparar la extensión de cada registro obtenido desde la página web.")
+print("Los registros con mayor cantidad de caracteres contienen más información textual y pueden aportar más datos para el análisis.")
